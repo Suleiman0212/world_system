@@ -1,4 +1,4 @@
-use super::map::{MapState, Tile, TileMap, TileType, TilesAssets};
+use super::map::{MapConfig, MapState, Tile, TileMap};
 use bevy::prelude::*;
 
 pub struct MapSpawnPlugin;
@@ -11,16 +11,13 @@ impl Plugin for MapSpawnPlugin {
 fn spawn_tiles(
     mut commands: Commands,
     mut map_state: ResMut<MapState>,
-    tiles_assets: Res<TilesAssets>,
+    map_config: Res<MapConfig>,
     tile_map: Res<TileMap>,
-    gltf: Res<Assets<Gltf>>,
+    mut meshes: ResMut<Assets<Mesh>>,
+    mut materials: ResMut<Assets<StandardMaterial>>,
     tiles_query: Query<(&Name, Entity), With<Tile>>,
 ) {
     if map_state.tiles_filled {
-        return;
-    }
-
-    if !map_state.assets_loaded {
         return;
     }
 
@@ -33,30 +30,23 @@ fn spawn_tiles(
         commands.entity(tile_entity).despawn_recursive();
     }
 
-    let water_tile = &gltf.get(&tiles_assets.water_gltf).unwrap().scenes[0];
-    let sand_tile = &gltf.get(&tiles_assets.sand_gltf).unwrap().scenes[0];
-    let dirt_tile = &gltf.get(&tiles_assets.dirt_gltf).unwrap().scenes[0];
-    let stone_tile = &gltf.get(&tiles_assets.stone_gltf).unwrap().scenes[0];
-    let snow_tile = &gltf.get(&tiles_assets.snow_gltf).unwrap().scenes[0];
+    let cube_mesh = meshes.add(Cuboid::default());
 
     for tile in tile_map.tiles.iter() {
-        let y_pos = match tile.tile_type {
-            TileType::Water => 0.0,
-            TileType::Sand => 1.0,
-            TileType::Dirt => 2.0,
-            TileType::Stone => 3.0,
-            TileType::Snow => 4.0,
-        };
+        let material = materials.add(StandardMaterial {
+            base_color: tile.tile_type.get_color(),
+            ..default()
+        });
+
         commands.spawn((
             Name::new(format!("{:?}: X{}.Y{}", tile.tile_type, tile.x, tile.z)),
-            SceneRoot(match tile.tile_type {
-                TileType::Water => water_tile.clone_weak(),
-                TileType::Sand => sand_tile.clone_weak(),
-                TileType::Dirt => dirt_tile.clone_weak(),
-                TileType::Stone => stone_tile.clone_weak(),
-                TileType::Snow => snow_tile.clone_weak(),
-            }),
-            Transform::from_translation(Vec3::new(tile.x as f32 * 2.0, y_pos, tile.z as f32 * 2.0)),
+            Mesh3d(cube_mesh.clone()),
+            MeshMaterial3d(material),
+            Transform::from_translation(Vec3::new(
+                tile.x as f32 * map_config.map_scale,
+                tile.tile_type.get_pos_y(),
+                tile.z as f32 * map_config.map_scale,
+            )),
             GlobalTransform::default(),
             tile.tile_type,
             tile.clone(),

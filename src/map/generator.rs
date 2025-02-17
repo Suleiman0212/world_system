@@ -1,4 +1,4 @@
-use super::map::{MapConfig, MapState, Tile, TileConfig, TileMap, TileType};
+use super::map::{MapConfig, MapState, Tile, TileMap, TileType};
 use bevy::prelude::*;
 use noise::{NoiseFn, OpenSimplex};
 
@@ -11,7 +11,6 @@ impl Plugin for MapGeneratorPlugin {
 
 fn generate_map_by_noise(
     map_config: Res<MapConfig>,
-    tile_config: Res<TileConfig>,
     mut tile_map: ResMut<TileMap>,
     mut map_state: ResMut<MapState>,
     tiles_query: Query<Entity, With<Tile>>,
@@ -36,13 +35,13 @@ fn generate_map_by_noise(
             ]);
             let height = (height + 1.0) / 2.0;
 
-            let tile_type = if height < tile_config.water_threshold {
+            let tile_type = if height < TileType::Water.get_treshhold() {
                 TileType::Water
-            } else if height < tile_config.sand_threshold {
+            } else if height < TileType::Sand.get_treshhold() {
                 TileType::Sand
-            } else if height < tile_config.dirt_threshold {
+            } else if height < TileType::Dirt.get_treshhold() {
                 TileType::Dirt
-            } else if height < tile_config.stone_threshold {
+            } else if height < TileType::Stone.get_treshhold() {
                 TileType::Stone
             } else {
                 TileType::Snow
