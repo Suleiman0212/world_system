@@ -28,8 +28,8 @@ fn display_ui(
         ui.add(egui::DragValue::new(&mut map_config.noise_scale));
 
         ui.label("Width|Lenght");
-        ui.add(egui::Slider::new(&mut map_config.width, 1..=200));
-        ui.add(egui::Slider::new(&mut map_config.lenght, 1..=200));
+        ui.add(egui::Slider::new(&mut map_config.width, 1..=500));
+        ui.add(egui::Slider::new(&mut map_config.lenght, 1..=500));
 
         if ui.button("Regenerate").clicked() {
             map_state.generated = false;

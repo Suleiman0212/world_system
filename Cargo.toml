@@ -5,8 +5,8 @@ edition = "2021"
 
 [dependencies]
 bevy = { version = "0.15.1", features = ["jpeg", "multi_threaded", "wayland"] }
-bevy_atmosphere = "0.12.2"
 bevy_egui = "0.33.0"
+bevy-fps-ui = "0.3.0"
 bevy-inspector-egui = "0.29.1"
 noise = "0.9.0"
 rand = "0.9.0"

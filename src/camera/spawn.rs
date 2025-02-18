@@ -18,7 +18,7 @@ fn spawn(mut commands: Commands) {
         Camera,
         Camera3d::default(),
         Projection::from(OrthographicProjection {
-            scale: 0.1,
+            scale: 0.05,
             near: -1000.0,
             far: 1000.0,
             ..OrthographicProjection::default_3d()

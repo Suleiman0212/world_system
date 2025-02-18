@@ -49,9 +49,9 @@ impl TileType {
         }
     }
 
-    pub const WATER_TILE_COLOR: Color = Color::srgb(47.0 / 255.0, 106.0 / 255.0, 229.0 / 255.0);
+    pub const WATER_TILE_COLOR: Color = Color::srgb(47.0 / 255.0, 180.0 / 255.0, 229.0 / 255.0);
     pub const SAND_TILE_COLOR: Color = Color::srgb(229.0 / 255.0, 180.0 / 255.0, 47.0 / 255.0);
-    pub const DIRT_TILE_COLOR: Color = Color::srgb(129.0 / 255.0, 229.0 / 255.0, 47.0 / 255.0);
+    pub const DIRT_TILE_COLOR: Color = Color::srgb(47.0 / 255.0, 229.0 / 255.0, 47.0 / 255.0);
     pub const STONE_TILE_COLOR: Color = Color::srgb(117.0 / 255.0, 124.0 / 255.0, 124.0 / 255.0);
     pub const SNOW_TILE_COLOR: Color = Color::srgb(230.0 / 255.0, 247.0 / 255.0, 247.0 / 255.0);
 
