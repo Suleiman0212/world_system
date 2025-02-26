@@ -1,4 +1,5 @@
-use super::map::{MapConfig, MapState, Tile, TileMap, TileType};
+use super::map::{MapConfig, MapState};
+use super::tiles::tiles::{Tile, TileMap, TileType};
 use bevy::prelude::*;
 use noise::{NoiseFn, OpenSimplex};
 
